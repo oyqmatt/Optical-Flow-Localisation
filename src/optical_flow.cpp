@@ -155,7 +155,7 @@ int main(int argc, char **argv)
         tripletList.reserve(4*kp0.size());
         int j = 0;
 
-        for(uint i = 0; i < kp0.size() || j < 5; i++)
+        for(uint i = 0; i < kp0.size(); i++)
         {
             // Select good points
             if(status[i] == 1 ) {
@@ -167,8 +167,8 @@ int main(int argc, char **argv)
                 // Orthogonal Components. Assume rotation about center
                 double disp_x = p0[i].x - center_x;
                 double disp_y = frame.size().height - p0[i].y - center_y;
-                x_orth = disp_y /*/ pow((disp_x*disp_x)+(disp_y*disp_y),0.5)*/;
-                y_orth = -disp_x /*/ pow((disp_x*disp_x)+(disp_y*disp_y),0.5)*/;
+                x_orth = -disp_y;
+                y_orth = disp_x;
 
                 // Assemble A and B matrix
                 b[j]=p1[i].x-p0[i].x;
@@ -182,7 +182,7 @@ int main(int argc, char **argv)
                 j += 2;
             }
         }
-
+        
         b.conservativeResize(j);
         //tripletList.resize(j);
         Eigen::SparseMatrix<float> A(j,3);
@@ -203,27 +203,27 @@ int main(int argc, char **argv)
             cout << "Solving failed!" << endl;
         }
 
-        y_global = y_global - (sin(angle) * x[0] + cos(angle) * x[1]);
-        x_global = x_global - (cos(angle) * x[0] - sin(angle) * x[1]);
-        angle += x[2];
+        y_global -= (sin(angle) * x[0] + cos(angle) * x[1]);
+        x_global -= (cos(angle) * x[0] - sin(angle) * x[1]);
+        angle -= x[2];
 
-        cout << "Current Location: " << x_global <<  ", " << y_global << ", " << angle << endl; 
+        cout << "Current Location: X = " << x_global <<  ", Y = " << y_global << ", Angle = " << angle << endl; 
 
         Mat img;
         add(frame, mask, img);
-        cv::putText(frame, 
-            "Current Location: " + to_string(x_global) + " " + to_string(y_global) + " " + to_string(angle),
+        cv::putText(img, 
+            "Current Location: X = " + to_string(x_global) + ", Y = " + to_string(y_global) + ", Angle = " + to_string(angle),
             cv::Point(5,20), // Coordinates (Bottom-left corner of the text string in the image)
             cv::FONT_HERSHEY_COMPLEX_SMALL, // Font
             1.0, // Scale. 2.0 = 2x bigger
             cv::Scalar(255,255,255), // BGR Color
             1, // Line Thickness (Optional)
             cv:: LINE_AA);
-        circle(frame, Point(-x_global+frame.size().width/2,y_global+frame.size().height/2), 5, CV_RGB(0,0,0) , -1);
-        imshow("Frame", frame);
+        circle(img, Point(-x_global+frame.size().width/2,y_global+frame.size().height/2), 5, CV_RGB(0,0,0) , -1);
+        imshow("Frame", img);
 
 #ifdef VID_OUT
-        vid_out.write(frame);
+        vid_out.write(img);
 #endif
         int keyboard = waitKey(30);
         if (keyboard == 'q' || keyboard == 27)
