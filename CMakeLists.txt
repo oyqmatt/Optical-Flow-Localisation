@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3)
 project( OpticalFlowLocalisation )
+
+# Dependencies
 find_package( OpenCV REQUIRED )
 find_package(Eigen3 REQUIRED)
 
@@ -8,5 +10,5 @@ include_directories(
     ${OpenCV_INCLUDE_DIRS}
 )
 
-add_executable( OpticalFlowLocalisation src/optical_flow.cpp )
+add_executable( OpticalFlowLocalisation src/main.cpp )
 target_link_libraries( OpticalFlowLocalisation ${OpenCV_LIBS} )
