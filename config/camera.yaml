@@ -1,0 +1,7 @@
+camera:
+  video_source: /home/matthew/Desktop/592.mp4
+  # k1,k2,p1,p2[,k3[,k4,k5,k6[,s1,s2,s3,s4[,τx,τy]]]]
+  distortion_coefficients: [-0.0159, -1.1865, -0.0098, 0.0064, 3.3476]
+  height: 720
+  width: 1280
+  camera_matrix: [3157, 5.4478, 1858, 0, 3156, 12000, 0, 0, 1]
