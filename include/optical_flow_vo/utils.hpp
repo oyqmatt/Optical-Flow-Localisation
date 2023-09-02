@@ -1,13 +1,17 @@
-#ifndef DBD0B7FD_91A2_41DA_A828_7F0E3FEE61BB
-#define DBD0B7FD_91A2_41DA_A828_7F0E3FEE61BB
+#ifndef OPTICAL_FLOW_VO_UTILS_HPP
+#define OPTICAL_FLOW_VO_UTILS_HPP
 
 // ORB and FAST have same keypoint detector
 enum class FeatureDetectorType {
-  kHarrisCorner,
-  kShiTomasi,
-  kSIFT,
-  kSURF,
-  kORB
+  kBRISK,
+  kORB,
+  // kMSER,
+  kFAST = kORB,
+  kAGAST,
+  kGFTT,
+  kBLOB,
+  // kKAZE,
+  // kAKAZE,
 };
 
-#endif /* DBD0B7FD_91A2_41DA_A828_7F0E3FEE61BB */
+#endif /* OPTICAL_FLOW_VO_UTILS_HPP */
